@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { jsPDF } from "jspdf";
-import "jspdf-autotable";
+//jsPDF loaded from CDN
+
 const SB_URL="https://koqautbqylhmladowyeg.supabase.co";
 const SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtvcWF1dGJxeWxobWxhZG93eWVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0OTk3MTksImV4cCI6MjA4OTA3NTcxOX0.s563M5KAUS9qt9zHBmfqrXFlyP4hRFrrIwC-lo9inoM";
 const hdrs=t=>({apikey:SB_KEY,Authorization:`Bearer ${t||SB_KEY}`,"Content-Type":"application/json"});
@@ -65,7 +65,7 @@ return(<div style={{maxWidth:640,margin:"0 auto",fontFamily:"system-ui",color:tp
 function FirmarOT({session,ot,onBack,onSigned,onEdit}){const[fT,sFT]=useState(null);const[fC,sFC]=useState(null);const[nF,sNF]=useState("");const[cF,sCF]=useState("");const[saving,sSav]=useState(false);const[editing,sEditing]=useState(false);const[chk,sChk]=useState([]);const[cli,sCli]=useState(null);const[eq,sEq]=useState(null);const[fotos,sFotos]=useState([]);const[showChk,sShowChk]=useState(false);const[showObs,sShowObs]=useState(false);const[showMed,sShowMed]=useState(false);const[showFotos,sShowFotos]=useState(false);const[paso,sPaso]=useState(0);const tk=session.access_token;
 const volverAEditar=async()=>{sEditing(true);try{await sbPatch("servicios",ot.id,{estado:"En progreso"},tk);if(onEdit)onEdit(ot)}catch(e){alert("Error: "+e.message)}sEditing(false)};
 useEffect(()=>{sbGet("checklist_items","select=*&servicio_id=eq."+ot.id+"&order=orden",tk).then(d=>{if(Array.isArray(d))sChk(d)});sbGet("clientes","select=*&id=eq."+ot.cliente_id,tk).then(d=>{if(d&&d[0])sCli(d[0])});sbGet("equipos","select=*&id=eq."+ot.equipo_id,tk).then(d=>{if(d&&d[0])sEq(d[0])});sbGet("fotos","select=*&servicio_id=eq."+ot.id+"&order=orden",tk).then(d=>{if(Array.isArray(d))sFotos(d)})},[]);
-const genPDF=()=>{const doc=new jsPDF();const w=doc.internal.pageSize.width;const m=15;const cw=w-2*m;let y=15;const green=[15,110,86];const grayL=[245,244,240];const grayT=[136,135,128];
+const genPDF=()=>{const{jsPDF}=window.jspdf;const doc=new jsPDF();const w=doc.internal.pageSize.width;const m=15;const cw=w-2*m;let y=15;const green=[15,110,86];const grayL=[245,244,240];const grayT=[136,135,128];
 const addText=(txt,x,yy,opts={})=>{doc.setFontSize(opts.sz||10);doc.setFont("helvetica",opts.b?"bold":"normal");doc.setTextColor(...(opts.c||[44,44,42]));doc.text(txt,x,yy,opts.al?{align:opts.al}:undefined);};
 const checkPage=(need=30)=>{if(y+need>doc.internal.pageSize.height-20){doc.addPage();y=15;return true}return false};
 // Header
