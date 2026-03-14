@@ -87,4 +87,4 @@ if(view==="crear")return(<>{nav}<div style={{maxWidth:640,margin:"0 auto",fontFa
 if(view==="trabajar"&&selOT)return(<>{nav}<TrabajarOT session={session} ot={selOT} onBack={()=>{sV("estado");sSel(null)}} onSaved={()=>{sV("estado");sSel(null)}}/></>);
 if(view==="firmar"&&selOT)return(<>{nav}<FirmarOT session={session} ot={selOT} onBack={()=>{sV("estado");sSel(null)}} onSigned={()=>{sV("estado");sSel(null)}} onEdit={ot=>{sSel({...ot,estado:"En progreso"});sV("trabajar")}}/></>);
 
-return(<>{nav}<div style={{maxWidth:640,margin:"0 auto",fontFamily:"system-ui"}}><EstadoOT session={session} onOpen={ot=>{sSel(ot);sV("trabajar")}} onFirmar={ot=>{sSel(ot);sV("firmar")}} onNew={()=>sV("crear")}/></div></>);}
+return(<>{nav}<div style={{maxWidth:640,margin:"0 auto",fontFamily:"system-ui"}}><EstadoOT session={session} onOpen={ot=>{sSel(ot);sV("trabajar")}} onFirmar={ot=>{sSel(ot);sV("firmar")}} onNew={()=>sV("crear")}/></div></>);} 
